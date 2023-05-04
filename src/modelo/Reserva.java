@@ -7,7 +7,7 @@ public class Reserva {
 	private String dataSaida;
 	private double valor;
 	private String formaPagamento;
-	
+
 	public Reserva(int id, String dataEntrada, String dataSaida, double valor, String formaPagamento) {
 		this.id = id;
 		this.dataEntrada = dataEntrada;
@@ -35,7 +35,11 @@ public class Reserva {
 	public String getFormaPagamento() {
 		return formaPagamento;
 	}
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return "[ID: " + this.id + " Entrada: " + this.dataEntrada + " Saida: " + this.dataSaida + " Valor: "
+				+ this.valor + " Pagamento: " + this.formaPagamento + "]";
+	}
+
 }

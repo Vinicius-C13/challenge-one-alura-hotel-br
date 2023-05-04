@@ -47,4 +47,10 @@ public class Hospede {
 	public int getIdReserva() {
 		return idReserva;
 	}
+	
+	@Override
+	public String toString() {
+		return "[ID: " + this.id + " Nome: " + this.nome + " " + this.sobrenome + " Nascimento: " + this.dataNascimento + " Nacionalidade: "
+				+ this.nacionalidade + " Telefone: " + this.telefone + " Reserva: " + this.idReserva + "]";
+	}
 }
