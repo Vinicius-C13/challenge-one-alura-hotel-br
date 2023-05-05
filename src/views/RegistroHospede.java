@@ -7,6 +7,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import java.awt.Color;
 import com.toedter.calendar.JDateChooser;
+
+import controller.HospedeController;
+import modelo.Hospede;
+
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
@@ -20,6 +24,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 import javax.swing.SwingConstants;
@@ -38,6 +43,9 @@ public class RegistroHospede extends JFrame {
 	private JLabel labelExit;
 	private JLabel labelAtras;
 	int xMouse, yMouse;
+	private String reservaID;
+	
+	public HospedeController hospedeController = new HospedeController();
 
 	/**
 	 * Launch the application.
@@ -46,7 +54,7 @@ public class RegistroHospede extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					RegistroHospede frame = new RegistroHospede();
+					RegistroHospede frame = new RegistroHospede("");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -58,7 +66,9 @@ public class RegistroHospede extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public RegistroHospede() {
+	public RegistroHospede(String reservaID) {
+		
+		this.reservaID = reservaID;
 		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(RegistroHospede.class.getResource("/imagenes/lOGO-50PX.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -284,6 +294,17 @@ public class RegistroHospede extends JFrame {
 		btnsalvar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				String nome = txtNome.getText();
+				String sobrenome = txtSobrenome.getText();
+				String nascimento = new SimpleDateFormat("yyyy-MM-dd").format(txtDataN.getDate());
+				String nacionalidade = txtNacionalidade.getSelectedItem().toString();
+				String telefone = txtTelefone.getText();
+				String reserva = reservaID;
+				
+				Hospede hospede = new Hospede(nome, sobrenome, nascimento, nacionalidade, telefone, reserva);
+				hospedeController.adicionar(hospede);
+				
+				System.out.println(hospede);
 			}
 		});
 		btnsalvar.setLayout(null);

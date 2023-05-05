@@ -16,12 +16,12 @@ public class ReservaController {
 		this.reservaDAO = new ReservaDAO(connection);
 	}
 
-	public void adicionar(int id, String dataEntrada, String dataSaida, double valor, String formaPagamento) {
-		reservaDAO.adicionar(dataEntrada, dataSaida, valor, formaPagamento);
+	public void adicionar(Reserva reserva) {
+		reservaDAO.adicionar(reserva);
 		System.out.println("Adicionando reserva");
 	}
 
-	public void remover(Integer id) {
+	public void remover(String id) {
 		reservaDAO.remover(id);
 		System.out.println("Removendo reserva");
 

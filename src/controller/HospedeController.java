@@ -10,16 +10,15 @@ import modelo.Hospede;
 public class HospedeController {
 
 	HospedeDAO hospedeDAO;
-	
+
 	public HospedeController() {
 		Connection connection = new ConnectionFactory().recuperarConexao();
 		this.hospedeDAO = new HospedeDAO(connection);
 	}
-	
-	public void adicionar(String nome, String sobrenome, String nascimento, String nacionalidade, String telefone,
-			Integer reserva) {
+
+	public void adicionar(Hospede hospede) {
 		System.out.println("Adicionando hospede");
-		hospedeDAO.adicionar(nome, sobrenome, nascimento, nacionalidade, telefone, reserva);
+		hospedeDAO.adicionar(hospede);
 	}
 
 	public void remover(Integer id) {
@@ -31,5 +30,5 @@ public class HospedeController {
 		System.out.println("Listando hospedes");
 		return hospedeDAO.listar();
 	}
-	
+
 }

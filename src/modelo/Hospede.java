@@ -7,17 +7,27 @@ public class Hospede {
 	private String dataNascimento;
 	private String nacionalidade;
 	private String telefone;
-	private int idReserva;
+	private String reservaID;
 
 	public Hospede(int id, String nome, String sobrenome, String dataNascimento, String nacionalidade, String telefone,
-			int idReserva) {
+			String reservaID) {
 		this.id = id;
 		this.nome = nome;
 		this.sobrenome = sobrenome;
 		this.dataNascimento = dataNascimento;
 		this.nacionalidade = nacionalidade;
 		this.telefone = telefone;
-		this.idReserva = idReserva;
+		this.reservaID = reservaID;
+	}
+	
+	public Hospede(String nome, String sobrenome, String dataNascimento, String nacionalidade, String telefone,
+			String reservaID) {
+		this.nome = nome;
+		this.sobrenome = sobrenome;
+		this.dataNascimento = dataNascimento;
+		this.nacionalidade = nacionalidade;
+		this.telefone = telefone;
+		this.reservaID = reservaID;
 	}
 
 	public int getId() {
@@ -44,13 +54,13 @@ public class Hospede {
 		return telefone;
 	}
 
-	public int getIdReserva() {
-		return idReserva;
+	public String getIdReserva() {
+		return reservaID;
 	}
 	
 	@Override
 	public String toString() {
 		return "[ID: " + this.id + " Nome: " + this.nome + " " + this.sobrenome + " Nascimento: " + this.dataNascimento + " Nacionalidade: "
-				+ this.nacionalidade + " Telefone: " + this.telefone + " Reserva: " + this.idReserva + "]";
+				+ this.nacionalidade + " Telefone: " + this.telefone + " Reserva: " + this.reservaID + "]";
 	}
 }
