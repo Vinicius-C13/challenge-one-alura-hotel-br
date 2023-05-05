@@ -19,9 +19,13 @@ public class Reserva {
 		this.valor = valor;
 		this.formaPagamento = formaPagamento;
 	}
-
-	public Reserva(String string, String string2, int int1, String string3) {
-		// TODO Auto-generated constructor stub
+	
+	public Reserva(String id, String dataEntrada, String dataSaida, double valor, String formaPagamento) {
+		this.id = id;
+		this.dataEntrada = dataEntrada;
+		this.dataSaida = dataSaida;
+		this.valor = valor;
+		this.formaPagamento = formaPagamento;
 	}
 
 	public String getId() {
@@ -51,14 +55,14 @@ public class Reserva {
 	}
 	
 	public String getRandomID() {
-        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        String SALTCHARS = "1234567890";
         StringBuilder salt = new StringBuilder();
         Random rnd = new Random();
-        while (salt.length() < 12) { // length of the random string.
+        while (salt.length() < 5) { // length of the random string.
             int index = (int) (rnd.nextFloat() * SALTCHARS.length());
             salt.append(SALTCHARS.charAt(index));
         }
-        String saltStr = salt.toString();
+        String saltStr = "R"+salt.toString();
         return saltStr;
     }
 

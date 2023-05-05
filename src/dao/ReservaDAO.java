@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import modelo.Reserva;
 
@@ -55,8 +56,8 @@ public class ReservaDAO {
 			List<Reserva> lista = new ArrayList<Reserva>();
 			try (ResultSet rst = pstm.getResultSet()) {
 				while (rst.next()) {
-					Reserva reserva = new Reserva(rst.getString(2), rst.getString(3), rst.getInt(4),
-							rst.getString(5));
+					Reserva reserva = new Reserva(rst.getString(1), rst.getString(2), rst.getString(3),
+							rst.getDouble(4), rst.getString(5));
 					lista.add(reserva);
 				}
 			}

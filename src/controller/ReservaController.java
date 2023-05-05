@@ -31,5 +31,4 @@ public class ReservaController {
 		System.out.println("Listando reservas");
 		return reservaDAO.listar();
 	}
-
 }

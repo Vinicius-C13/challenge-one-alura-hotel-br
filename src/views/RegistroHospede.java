@@ -303,8 +303,6 @@ public class RegistroHospede extends JFrame {
 				
 				Hospede hospede = new Hospede(nome, sobrenome, nascimento, nacionalidade, telefone, reserva);
 				hospedeController.adicionar(hospede);
-				
-				System.out.println(hospede);
 			}
 		});
 		btnsalvar.setLayout(null);
