@@ -21,9 +21,9 @@ public class HospedeController {
 		hospedeDAO.adicionar(hospede);
 	}
 
-	public void remover(Integer id) {
+	public void deletar(Integer id) {
 		System.out.println("Removendo hospede");
-		hospedeDAO.remover(id);
+		hospedeDAO.deletar(id);
 	}
 
 	public List<Hospede> listar() {

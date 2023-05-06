@@ -7,10 +7,10 @@ public class Hospede {
 	private String dataNascimento;
 	private String nacionalidade;
 	private String telefone;
-	private String reservaID;
+	private Integer reservaID;
 
 	public Hospede(int id, String nome, String sobrenome, String dataNascimento, String nacionalidade, String telefone,
-			String reservaID) {
+			Integer reservaID) {
 		this.id = id;
 		this.nome = nome;
 		this.sobrenome = sobrenome;
@@ -21,7 +21,7 @@ public class Hospede {
 	}
 	
 	public Hospede(String nome, String sobrenome, String dataNascimento, String nacionalidade, String telefone,
-			String reservaID) {
+			Integer reservaID) {
 		this.nome = nome;
 		this.sobrenome = sobrenome;
 		this.dataNascimento = dataNascimento;
@@ -54,7 +54,7 @@ public class Hospede {
 		return telefone;
 	}
 
-	public String getIdReserva() {
+	public Integer getIdReserva() {
 		return reservaID;
 	}
 	

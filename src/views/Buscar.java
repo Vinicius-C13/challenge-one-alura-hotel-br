@@ -26,6 +26,7 @@ import javax.swing.JSeparator;
 import javax.swing.ListSelectionModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.sql.Date;
 import java.util.List;
@@ -93,6 +94,13 @@ public class Buscar extends JFrame {
 		panel.setBackground(new Color(12, 138, 199));
 		panel.setFont(new Font("Roboto", Font.PLAIN, 16));
 		panel.setBounds(20, 169, 865, 328);
+		panel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				tbHospedes.clearSelection();
+				tbReservas.clearSelection();
+			}
+		});
 		contentPane.add(panel);
 
 		tbReservas = new JTable();
@@ -259,6 +267,13 @@ public class Buscar extends JFrame {
 		btnDeletar.setBackground(new Color(12, 138, 199));
 		btnDeletar.setBounds(767, 508, 122, 35);
 		btnDeletar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+		btnDeletar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				deletar();
+				// super.mouseClicked(e);
+			}
+		});
 		contentPane.add(btnDeletar);
 
 		JLabel lblExcluir = new JLabel("DELETAR");
@@ -311,15 +326,39 @@ public class Buscar extends JFrame {
 		}
 	}
 
-//	private void deletarReserva() {
-//		Object objetoDaLinha = (Object) modelo.getValueAt(tabela.getSelectedRow(), tabela.getSelectedColumn());
-//		if (objetoDaLinha instanceof Integer) {
-//			Integer id = (Integer) objetoDaLinha;
-//			this.produtoController.deletar(id);
-//			modelo.removeRow(tabela.getSelectedRow());
-//			JOptionPane.showMessageDialog(this, "Item exclu�do com sucesso!");
-//		} else {
-//			JOptionPane.showMessageDialog(this, "Por favor, selecionar o ID");
-//		}
-//	}
+	private void deletar() {
+		if (tbReservas.getSelectedRow() != -1)
+			deletarReserva();
+		else if (tbHospedes.getSelectedRow() != -1)
+			deletarHospede();
+		else
+			JOptionPane.showMessageDialog(this, "Por favor, selecionar o ID");
+	}
+
+	private void deletarReserva() {
+		Object objetoDaLinha = (Object) modelo.getValueAt(tbReservas.getSelectedRow(), tbReservas.getSelectedColumn());
+
+		if (objetoDaLinha instanceof Integer) {
+			Integer id = (Integer) objetoDaLinha;
+			this.reservaController.deletar(id);
+			modelo.removeRow(tbReservas.getSelectedRow());
+			JOptionPane.showMessageDialog(this, "Item exclu�do com sucesso!");
+		} else {
+			JOptionPane.showMessageDialog(this, "Por favor, selecionar o ID");
+		}
+	}
+
+	private void deletarHospede() {
+		Object objetoDaLinha = (Object) modeloHospedes.getValueAt(tbHospedes.getSelectedRow(),
+				tbHospedes.getSelectedColumn());
+
+		if (objetoDaLinha instanceof Integer) {
+			Integer id = (Integer) objetoDaLinha;
+			this.hospedeController.deletar(id);
+			modeloHospedes.removeRow(tbHospedes.getSelectedRow());
+			JOptionPane.showMessageDialog(this, "Item exclu�do com sucesso!");
+		} else {
+			JOptionPane.showMessageDialog(this, "Por favor, selecionar o ID");
+		}
+	}
 }

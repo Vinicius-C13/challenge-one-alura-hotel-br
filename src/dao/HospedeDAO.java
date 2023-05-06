@@ -27,7 +27,7 @@ public class HospedeDAO {
 			pstm.setString(3, hospede.getDataNascimento());
 			pstm.setString(4, hospede.getNacionalidade());
 			pstm.setString(5, hospede.getTelefone());
-			pstm.setString(6, hospede.getIdReserva());
+			pstm.setInt(6, hospede.getIdReserva());
 
 			pstm.execute();
 			System.out.println("hospede adicionado");
@@ -36,7 +36,7 @@ public class HospedeDAO {
 		}
 	}
 
-	public void remover(Integer id) {
+	public void deletar(Integer id) {
 		String sql = "DELETE FROM HOSPEDES WHERE ID = ?";
 
 		try (PreparedStatement pstm = connection.prepareStatement(sql)) {
@@ -56,7 +56,7 @@ public class HospedeDAO {
 			try (ResultSet rst = pstm.getResultSet()) {
 				while (rst.next()) {
 					Hospede hospede = new Hospede(rst.getInt(1), rst.getString(2), rst.getString(3), rst.getString(4),
-							rst.getString(5), rst.getString(6), rst.getString(7));
+							rst.getString(5), rst.getString(6), rst.getInt(7));
 					lista.add(hospede);
 				}
 			}

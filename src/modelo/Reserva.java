@@ -6,21 +6,20 @@ import java.util.concurrent.TimeUnit;
 
 public class Reserva {
 
-	private String id;
+	private Integer id;
 	private String dataEntrada;
 	private String dataSaida;
 	private double valor;
 	private String formaPagamento;
 
 	public Reserva(String dataEntrada, String dataSaida, double valor, String formaPagamento) {
-		this.id = this.getRandomID();
 		this.dataEntrada = dataEntrada;
 		this.dataSaida = dataSaida;
 		this.valor = valor;
 		this.formaPagamento = formaPagamento;
 	}
 	
-	public Reserva(String id, String dataEntrada, String dataSaida, double valor, String formaPagamento) {
+	public Reserva(Integer id, String dataEntrada, String dataSaida, double valor, String formaPagamento) {
 		this.id = id;
 		this.dataEntrada = dataEntrada;
 		this.dataSaida = dataSaida;
@@ -28,7 +27,7 @@ public class Reserva {
 		this.formaPagamento = formaPagamento;
 	}
 
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
 
@@ -53,17 +52,5 @@ public class Reserva {
 		return "[ID: " + this.id + " Entrada: " + this.dataEntrada + " Saida: " + this.dataSaida + " Valor: "
 				+ this.valor + " Pagamento: " + this.formaPagamento + "]";
 	}
-	
-	public String getRandomID() {
-        String SALTCHARS = "1234567890";
-        StringBuilder salt = new StringBuilder();
-        Random rnd = new Random();
-        while (salt.length() < 5) { // length of the random string.
-            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
-            salt.append(SALTCHARS.charAt(index));
-        }
-        String saltStr = "R"+salt.toString();
-        return saltStr;
-    }
 
 }

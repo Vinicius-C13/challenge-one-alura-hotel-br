@@ -16,19 +16,15 @@ public class ReservaController {
 		this.reservaDAO = new ReservaDAO(connection);
 	}
 
-	public void adicionar(Reserva reserva) {
-		reservaDAO.adicionar(reserva);
-		System.out.println("Adicionando reserva");
+	public Integer adicionar(Reserva reserva) {
+		return reservaDAO.adicionar(reserva);
 	}
 
-	public void remover(String id) {
-		reservaDAO.remover(id);
-		System.out.println("Removendo reserva");
-
+	public void deletar(Integer id) {
+		reservaDAO.deletar(id);
 	}
 
 	public List<Reserva> listar() {
-		System.out.println("Listando reservas");
 		return reservaDAO.listar();
 	}
 }

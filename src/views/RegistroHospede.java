@@ -43,7 +43,7 @@ public class RegistroHospede extends JFrame {
 	private JLabel labelExit;
 	private JLabel labelAtras;
 	int xMouse, yMouse;
-	private String reservaID;
+	private Integer reservaID;
 	
 	public HospedeController hospedeController = new HospedeController();
 
@@ -54,7 +54,7 @@ public class RegistroHospede extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					RegistroHospede frame = new RegistroHospede("");
+					RegistroHospede frame = new RegistroHospede(0);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -66,7 +66,9 @@ public class RegistroHospede extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public RegistroHospede(String reservaID) {
+	public RegistroHospede(Integer reservaID) {
+		
+		System.out.println(reservaID);
 		
 		this.reservaID = reservaID;
 		
@@ -251,6 +253,8 @@ public class RegistroHospede extends JFrame {
 		txtNreserva.setColumns(10);
 		txtNreserva.setBackground(Color.WHITE);
 		txtNreserva.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		txtNreserva.setEditable(false);
+		txtNreserva.setText(reservaID.toString());
 		contentPane.add(txtNreserva);
 		
 		JSeparator separator_1_2 = new JSeparator();
@@ -299,7 +303,7 @@ public class RegistroHospede extends JFrame {
 				String nascimento = new SimpleDateFormat("yyyy-MM-dd").format(txtDataN.getDate());
 				String nacionalidade = txtNacionalidade.getSelectedItem().toString();
 				String telefone = txtTelefone.getText();
-				String reserva = reservaID;
+				Integer reserva = reservaID;
 				
 				Hospede hospede = new Hospede(nome, sobrenome, nascimento, nacionalidade, telefone, reserva);
 				hospedeController.adicionar(hospede);
