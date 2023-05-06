@@ -30,7 +30,6 @@ public class HospedeDAO {
 			pstm.setInt(6, hospede.getIdReserva());
 
 			pstm.execute();
-			System.out.println("hospede adicionado");
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -42,7 +41,6 @@ public class HospedeDAO {
 		try (PreparedStatement pstm = connection.prepareStatement(sql)) {
 			pstm.setInt(1, id);
 			pstm.execute();
-			System.out.println("hospede removido");
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -61,6 +59,24 @@ public class HospedeDAO {
 				}
 			}
 			return lista;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public List<Hospede> listarPorReserva(Integer reservaID) {
+		List<Hospede> lista = new ArrayList<Hospede>();
+		String sql = "SELECT * FROM HOSPEDES WHERE ID_RESERVA = ?";
+		
+		try(PreparedStatement pstm = connection.prepareStatement(sql)) {
+			pstm.setInt(1, reservaID);
+			pstm.execute();
+			try(ResultSet rst = pstm.getResultSet()) {
+				while(rst.next()) {
+					lista.add(new Hospede(rst.getInt(1), rst.getString(2), rst.getString(3), rst.getString(4), rst.getString(5), rst.getString(6), rst.getInt(7)));
+				}
+				return lista;
+			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}

@@ -103,7 +103,14 @@ public class Buscar extends JFrame {
 		});
 		contentPane.add(panel);
 
-		tbReservas = new JTable();
+		tbReservas = new JTable() {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				if(column == 0)
+					return false; //Renders column 0 uneditable.
+				return true;
+			}
+		};
 		tbReservas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tbReservas.setFont(new Font("Roboto", Font.PLAIN, 16));
 		modelo = (DefaultTableModel) tbReservas.getModel();
@@ -117,7 +124,14 @@ public class Buscar extends JFrame {
 				null);
 		scroll_table.setVisible(true);
 
-		tbHospedes = new JTable();
+		tbHospedes = new JTable() {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				if(column == 0)
+					return false; //Renders column 0 uneditable.
+				return true;
+			}
+		};
 		tbHospedes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tbHospedes.setFont(new Font("Roboto", Font.PLAIN, 16));
 		modeloHospedes = (DefaultTableModel) tbHospedes.getModel();
@@ -315,6 +329,7 @@ public class Buscar extends JFrame {
 
 	private void preencherTabelaDeHospedes() {
 		List<Hospede> hospedes = hospedeController.listar();
+		modeloHospedes.setRowCount(0);
 		try {
 			for (Hospede hospede : hospedes) {
 				modeloHospedes.addRow(new Object[] { hospede.getId(), hospede.getNome(), hospede.getSobrenome(),
@@ -340,9 +355,13 @@ public class Buscar extends JFrame {
 
 		if (objetoDaLinha instanceof Integer) {
 			Integer id = (Integer) objetoDaLinha;
-			this.reservaController.deletar(id);
-			modelo.removeRow(tbReservas.getSelectedRow());
-			JOptionPane.showMessageDialog(this, "Item exclu�do com sucesso!");
+			if(deletarHospedePorReserva(id)) {				
+				this.reservaController.deletar(id);
+				modelo.removeRow(tbReservas.getSelectedRow());
+				JOptionPane.showMessageDialog(this, "Item exclu�do com sucesso!");
+			} else {
+				JOptionPane.showMessageDialog(this, "operação cancelada");
+			}
 		} else {
 			JOptionPane.showMessageDialog(this, "Por favor, selecionar o ID");
 		}
@@ -359,6 +378,23 @@ public class Buscar extends JFrame {
 			JOptionPane.showMessageDialog(this, "Item exclu�do com sucesso!");
 		} else {
 			JOptionPane.showMessageDialog(this, "Por favor, selecionar o ID");
+		}
+	}
+
+	private boolean deletarHospedePorReserva(Integer reservaID) {
+		List<Hospede> lista = this.hospedeController.listarPorReserva(reservaID);
+		if(lista.isEmpty()) return true;
+		
+		int resposta = JOptionPane.showConfirmDialog(null, "Realizando esta ação, os hospedes relacionado à está reserva também será deletado do sistema.\nDeseja continuar?", "Por favor, escolha:",
+				JOptionPane.YES_NO_OPTION);
+		if(resposta == 0) {
+			for (Hospede hospede : lista) {
+				this.hospedeController.deletar(hospede.getId());
+			}
+			preencherTabelaDeHospedes();
+			return true;
+		} else {
+			return false;
 		}
 	}
 }

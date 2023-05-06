@@ -6,9 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import modelo.Hospede;
 import modelo.Reserva;
 
 public class ReservaDAO {
@@ -35,7 +37,6 @@ public class ReservaDAO {
 			try(ResultSet rst = pstm.getGeneratedKeys()) {
 				while(rst.next()) {
 					id = rst.getInt(1);
-					System.out.println("funcionei");
 				}
 			}
 			
@@ -47,12 +48,21 @@ public class ReservaDAO {
 	}
 
 	public void deletar(Integer id) {
+		
+		HospedeDAO hospedeDAO = new HospedeDAO(this.connection);
+		List<Hospede> listaDeHospedesRelacionados = hospedeDAO.listarPorReserva(id);
+		
+		if(!listaDeHospedesRelacionados.isEmpty()) {
+			for (Hospede hospede : listaDeHospedesRelacionados) {
+				hospedeDAO.deletar(hospede.getId());
+			}
+		}
+		
 		String sql = "DELETE FROM RESERVAS WHERE ID = ?";
 
 		try (PreparedStatement pstm = connection.prepareStatement(sql)) {
 			pstm.setInt(1, id);
 			pstm.execute();
-			System.out.println("Reserva removida");
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}

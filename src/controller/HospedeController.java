@@ -17,18 +17,19 @@ public class HospedeController {
 	}
 
 	public void adicionar(Hospede hospede) {
-		System.out.println("Adicionando hospede");
 		hospedeDAO.adicionar(hospede);
 	}
 
 	public void deletar(Integer id) {
-		System.out.println("Removendo hospede");
 		hospedeDAO.deletar(id);
 	}
 
 	public List<Hospede> listar() {
-		System.out.println("Listando hospedes");
 		return hospedeDAO.listar();
+	}
+	
+	public List<Hospede> listarPorReserva(Integer reservaID) {
+		return hospedeDAO.listarPorReserva(reservaID);
 	}
 
 }
