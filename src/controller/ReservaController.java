@@ -27,4 +27,8 @@ public class ReservaController {
 	public List<Reserva> listar() {
 		return reservaDAO.listar();
 	}
+	
+	public List<Reserva> listarComFiltro(Integer chave) {
+		return reservaDAO.listarComFiltro(chave);
+	}
 }

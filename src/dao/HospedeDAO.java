@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modelo.Hospede;
+import modelo.Reserva;
 
 public class HospedeDAO {
 
@@ -63,21 +64,45 @@ public class HospedeDAO {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public List<Hospede> listarPorReserva(Integer reservaID) {
 		List<Hospede> lista = new ArrayList<Hospede>();
 		String sql = "SELECT * FROM HOSPEDES WHERE ID_RESERVA = ?";
-		
-		try(PreparedStatement pstm = connection.prepareStatement(sql)) {
+
+		try (PreparedStatement pstm = connection.prepareStatement(sql)) {
 			pstm.setInt(1, reservaID);
 			pstm.execute();
-			try(ResultSet rst = pstm.getResultSet()) {
-				while(rst.next()) {
-					lista.add(new Hospede(rst.getInt(1), rst.getString(2), rst.getString(3), rst.getString(4), rst.getString(5), rst.getString(6), rst.getInt(7)));
+			try (ResultSet rst = pstm.getResultSet()) {
+				while (rst.next()) {
+					lista.add(new Hospede(rst.getInt(1), rst.getString(2), rst.getString(3), rst.getString(4),
+							rst.getString(5), rst.getString(6), rst.getInt(7)));
 				}
 				return lista;
 			}
 		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public List<Hospede> listarComFiltro(Integer chave) {
+		System.out.println(chave);
+
+		String sql = "SELECT * FROM HOSPEDES WHERE ID = ?";
+		List<Hospede> lista = new ArrayList<Hospede>();
+
+		try (PreparedStatement pstm = connection.prepareStatement(sql)) {
+			pstm.setInt(1, chave);
+			pstm.execute();
+
+			try (ResultSet rst = pstm.getResultSet()) {
+				while (rst.next()) {
+					lista.add(new Hospede(rst.getInt(1), rst.getString(2), rst.getString(3), rst.getString(4),
+							rst.getString(5), rst.getString(6), rst.getInt(7)));
+				}
+				return lista;
+			}
+
+		} catch (NumberFormatException | SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}

@@ -6,9 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+
+import javax.management.RuntimeErrorException;
+import javax.swing.plaf.synth.SynthOptionPaneUI;
 
 import modelo.Hospede;
 import modelo.Reserva;
@@ -83,6 +84,33 @@ public class ReservaDAO {
 			}
 			return lista;
 		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public List<Reserva> listarComFiltro(Integer chave) {
+		
+		System.out.println(chave);
+		
+		String sql = "SELECT * FROM RESERVAS WHERE ID = ?";
+		List<Reserva> lista = new ArrayList<Reserva>();
+		
+		try(PreparedStatement pstm = connection.prepareStatement(sql)) {
+			pstm.setInt(1, chave);
+			pstm.execute();
+			
+			
+			
+			try(ResultSet rst = pstm.getResultSet()) {
+				while(rst.next()) {
+					Reserva reserva = new Reserva(rst.getInt(1), rst.getString(2), rst.getString(3),
+							rst.getDouble(4), rst.getString(5));
+					lista.add(reserva);
+				}
+				return lista;
+			}
+			
+		} catch (NumberFormatException | SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}

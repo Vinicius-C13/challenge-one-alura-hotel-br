@@ -17,16 +17,12 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import java.awt.SystemColor;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.sql.SQLException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 import javax.swing.SwingConstants;
 import javax.swing.JSeparator;
@@ -68,8 +64,6 @@ public class RegistroHospede extends JFrame {
 	 * Create the frame.
 	 */
 	public RegistroHospede(Integer reservaID) {
-
-		System.out.println(reservaID);
 
 		this.reservaID = reservaID;
 
@@ -343,6 +337,7 @@ public class RegistroHospede extends JFrame {
 					} else {
 						Hospede hospede = new Hospede(nome, sobrenome, nascimento, nacionalidade, telefone, reserva);
 						hospedeController.adicionar(hospede);
+						JOptionPane.showMessageDialog(null, "Hospede adicionado!");
 					}
 
 				} catch (NullPointerException ex) {

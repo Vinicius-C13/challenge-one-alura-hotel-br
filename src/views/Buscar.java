@@ -26,9 +26,7 @@ import javax.swing.JSeparator;
 import javax.swing.ListSelectionModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
-import java.sql.Date;
 import java.util.List;
 
 @SuppressWarnings("serial")
@@ -247,7 +245,7 @@ public class Buscar extends JFrame {
 		btnbuscar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-
+				buscar();
 			}
 		});
 		btnbuscar.setLayout(null);
@@ -298,8 +296,8 @@ public class Buscar extends JFrame {
 		btnDeletar.add(lblExcluir);
 		setResizable(false);
 
-		preencherTabelaDeReservas();
-		preencherTabelaDeHospedes();
+		preencherTabelaDeReservas(reservaController.listar());
+		preencherTabelaDeHospedes(hospedeController.listar());
 	}
 
 	// Código que permite movimentar a janela pela tela seguindo a posição de "x" e
@@ -315,10 +313,14 @@ public class Buscar extends JFrame {
 		this.setLocation(x - xMouse, y - yMouse);
 	}
 
-	private void preencherTabelaDeReservas() {
-		List<Reserva> reservas = reservaController.listar();
+	private void preencherTabelaDeReservas(List<Reserva> listaReservas) {
+		if(listaReservas == null) {
+			System.out.println("valores não encontrados");
+			return;
+		}
+		modelo.setRowCount(0);
 		try {
-			for (Reserva reserva : reservas) {
+			for (Reserva reserva : listaReservas) {
 				modelo.addRow(new Object[] { reserva.getId(), reserva.getDataEntrada(), reserva.getDataSaida(),
 						reserva.getValor(), reserva.getFormaPagamento() });
 			}
@@ -327,11 +329,13 @@ public class Buscar extends JFrame {
 		}
 	}
 
-	private void preencherTabelaDeHospedes() {
-		List<Hospede> hospedes = hospedeController.listar();
+	private void preencherTabelaDeHospedes(List<Hospede> listaHospedes) {
+		if(listaHospedes == null) {
+			return;
+		}
 		modeloHospedes.setRowCount(0);
 		try {
-			for (Hospede hospede : hospedes) {
+			for (Hospede hospede : listaHospedes) {
 				modeloHospedes.addRow(new Object[] { hospede.getId(), hospede.getNome(), hospede.getSobrenome(),
 						hospede.getDataNascimento(), hospede.getNacionalidade(), hospede.getTelefone(),
 						hospede.getIdReserva() });
@@ -391,10 +395,37 @@ public class Buscar extends JFrame {
 			for (Hospede hospede : lista) {
 				this.hospedeController.deletar(hospede.getId());
 			}
-			preencherTabelaDeHospedes();
+			preencherTabelaDeHospedes(hospedeController.listar());
 			return true;
 		} else {
 			return false;
+		}
+	}
+	
+	private void buscar() {
+		String chave = txtBuscar.getText();
+		Integer chaveDeBusca = Integer.parseInt(chave);
+		buscarReservas(chaveDeBusca);
+		buscarHospedes(chaveDeBusca);
+	}
+	
+	private void buscarReservas(Integer chaveDeBusca) {
+		try {
+			preencherTabelaDeReservas(reservaController.listarComFiltro(chaveDeBusca));
+		} catch(NumberFormatException e) {
+			System.out.println("chave de busca invalida");
+			preencherTabelaDeReservas(reservaController.listar());
+			return;
+		}
+	}
+	
+	private void buscarHospedes(Integer chaveDeBusca) {
+		try {
+			preencherTabelaDeHospedes(hospedeController.listarComFiltro(chaveDeBusca));
+		} catch(NumberFormatException e) {
+			System.out.println("chave de busca invalida");
+			preencherTabelaDeHospedes(hospedeController.listar());
+			return;
 		}
 	}
 }

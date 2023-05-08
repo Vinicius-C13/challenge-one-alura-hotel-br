@@ -1,9 +1,5 @@
 package modelo;
 
-import java.util.Date;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
-
 public class Reserva {
 
 	private Integer id;

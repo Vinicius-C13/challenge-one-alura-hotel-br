@@ -31,5 +31,9 @@ public class HospedeController {
 	public List<Hospede> listarPorReserva(Integer reservaID) {
 		return hospedeDAO.listarPorReserva(reservaID);
 	}
+	
+	public List<Hospede> listarComFiltro(Integer chave) {
+		return hospedeDAO.listarComFiltro(chave);
+	}
 
 }
